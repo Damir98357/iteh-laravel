@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CustomerResource;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 
@@ -41,7 +42,9 @@ class CustomerController extends Controller
         if (is_null($customer)) {
             return response()->json('Customer not found', 404);
         }
-        return response()->json($customer);
+        return response()->json([
+            'customer' => new CustomerResource($customer)
+        ]);
     }
 
     /**

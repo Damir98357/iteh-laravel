@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\OrderResource;
 use App\Models\Order;
 use Illuminate\Http\Request;
 
@@ -41,7 +42,9 @@ class OrderController extends Controller
         if (is_null($order)) {
             return response()->json('Order not found', 404);
         }
-        return response()->json($order);
+        return response()->json([
+            'order' => new OrderResource($order)
+        ]);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -41,7 +42,9 @@ class ProductController extends Controller
         if (is_null($product)) {
             return response()->json('Product not found', 404);
         }
-        return response()->json($product);
+        return response()->json([
+            'product' => new ProductResource($product)
+        ]);
     }
 
     /**
