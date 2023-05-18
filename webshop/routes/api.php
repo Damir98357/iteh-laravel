@@ -37,3 +37,20 @@ Route::get('/products/{id}', [ProductController::class, 'show']);
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::get('/profile', function (Request $request) {
+        return auth()->user();
+    });
+
+    Route::resource('customers', CustomerController::class)
+        ->only(['store', 'update', 'destroy']);
+
+    Route::resource('orders', OrderController::class)
+        ->only(['store', 'update', 'destroy']);
+
+    Route::resource('products', ProductController::class)
+        ->only(['store', 'update', 'destroy']);
+
+    Route::post('/logout', [AuthController::class, 'logout']);
+});
